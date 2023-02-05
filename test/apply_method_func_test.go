@@ -9,7 +9,7 @@ import (
 )
 
 /*
-	compare with apply_method_test.go, no need pass receiver
+	compare with apply_method_test.go, no need pass receiver	与apply_method_test.go对比，不需要pass receiver
 */
 
 func TestApplyMethodFunc(t *testing.T) {
@@ -37,7 +37,7 @@ func TestApplyMethodFunc(t *testing.T) {
 				return fake.ErrElemExsit
 			})
 			defer patches.Reset()
-			err = slice.Add(1)
+			err = slice.Add(2)
 			So(err, ShouldEqual, fake.ErrElemExsit)
 			err = slice.Remove(2)
 			So(err, ShouldEqual, nil)
@@ -55,7 +55,7 @@ func TestApplyMethodFunc(t *testing.T) {
 			patches.ApplyMethodFunc(s, "Remove", func(_ int) error {
 				return fake.ErrElemNotExsit
 			})
-			err = slice.Add(2)
+			err = slice.Add(1)
 			So(err, ShouldEqual, fake.ErrElemExsit)
 			err = slice.Remove(1)
 			So(err, ShouldEqual, fake.ErrElemNotExsit)

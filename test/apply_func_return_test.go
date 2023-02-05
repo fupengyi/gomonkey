@@ -9,7 +9,7 @@ import (
 )
 
 /*
-  compare with apply_func_seq_test.go
+compare with apply_func_seq_test.go
 */
 func TestApplyFuncReturn(t *testing.T) {
 	Convey("TestApplyFuncReturn", t, func() {
@@ -26,7 +26,7 @@ func TestApplyFuncReturn(t *testing.T) {
 				So(output, ShouldEqual, info1)
 			}
 
-			patches.Reset() // if not reset will occur:patch has been existed
+			patches.Reset() // if not reset will occur:patch has been existed	// 如果不重置会出现：补丁已经存在
 			info2 := "hello golang"
 			patches.ApplyFuncReturn(fake.ReadLeaf, info2, nil)
 			for i := 0; i < 10; i++ {

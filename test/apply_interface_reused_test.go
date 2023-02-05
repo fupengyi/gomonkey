@@ -29,6 +29,17 @@ func TestApplyInterfaceReused(t *testing.T) {
 			So(output, ShouldEqual, info)
 		})
 
+		Convey("the arg type can be interface", func() {
+			info := "hello interface"
+			patches.ApplyMethod(e, "Retrieve",
+				func(_ fake.Db, _ string) (string, error) {
+					return info, nil
+				})
+			output, err := db.Retrieve("")
+			So(err, ShouldEqual, nil)
+			So(output, ShouldEqual, info)
+		})
+
 		Convey("TestApplyInterfaceSeq", func() {
 			info1 := "hello cpp"
 			info2 := "hello golang"
@@ -50,15 +61,15 @@ func TestApplyInterfaceReused(t *testing.T) {
 			So(output, ShouldEqual, info3)
 		})
 
-		Convey("the arg type can be interface", func() {
-			info := "hello interface"
-			patches.ApplyMethod(e, "Retrieve",
-				func(_ fake.Db, _ string) (string, error) {
-					return info, nil
-				})
-			output, err := db.Retrieve("")
-			So(err, ShouldEqual, nil)
-			So(output, ShouldEqual, info)
-		})
+		//Convey("the arg type can be interface", func() {
+		//	info := "hello interface"
+		//	patches.ApplyMethod(e, "Retrieve",
+		//		func(_ fake.Db, _ string) (string, error) {
+		//			return info, nil
+		//		})
+		//	output, err := db.Retrieve("")
+		//	So(err, ShouldEqual, nil)
+		//	So(output, ShouldEqual, info)
+		//})
 	})
 }

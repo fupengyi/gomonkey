@@ -1,6 +1,9 @@
 package gomonkey
 
-import "reflect"
+import (
+	"reflect"
+	"unsafe"
+)
 
 gomonkey 是一个使单元测试中的猴子修补变得容易的库，猴子修补的核心思想来自 Bouke，您可以阅读这篇博文以了解其工作原理。
 
@@ -46,27 +49,38 @@ $ go test -gcflags=all=-l
 # Index
 func GetResultValues(funcType reflect.Type, results ...interface{}) []reflect.Value
 type OutputCell struct {
-	Values Params
-	Times  int
+	Values Params	// 函数返回参数切片，请看apply_func_seq_test.go
+	Times  int		// 调用的次数
 }
 type Params []interface{}
 type Patches struct {
 	// contains filtered or unexported fields
 }
 func ApplyFunc(target, double interface{}) *Patches
+func ApplyFuncReturn(target interface{}, output ...interface{}) *Patches
 func ApplyFuncSeq(target interface{}, outputs []OutputCell) *Patches
 func ApplyFuncVar(target, double interface{}) *Patches
+func ApplyFuncVarReturn(target interface{}, output ...interface{}) *Patches
 func ApplyFuncVarSeq(target interface{}, outputs []OutputCell) *Patches
 func ApplyGlobalVar(target, double interface{}) *Patches
 func ApplyMethod(target reflect.Type, methodName string, double interface{}) *Patches
+func ApplyMethodFunc(target interface{}, methodName string, doubleFunc interface{}) *Patches
+func ApplyMethodReturn(target interface{}, methodName string, output ...interface{}) *Patches
 func ApplyMethodSeq(target reflect.Type, methodName string, outputs []OutputCell) *Patches
+func ApplyPrivateMethod(target interface{}, methodName string, double interface{}) *Patches
 func NewPatches() *Patches
 func (this *Patches) ApplyCore(target, double reflect.Value) *Patches
+func (this *Patches) ApplyCoreOnlyForPrivateMethod(target unsafe.Pointer, double reflect.Value) *Patches
 func (this *Patches) ApplyFunc(target, double interface{}) *Patches
+func (this *Patches) ApplyFuncReturn(target interface{}, returns ...interface{}) *Patches
 func (this *Patches) ApplyFuncSeq(target interface{}, outputs []OutputCell) *Patches
 func (this *Patches) ApplyFuncVar(target, double interface{}) *Patches
+func (this *Patches) ApplyFuncVarReturn(target interface{}, returns ...interface{}) *Patches
 func (this *Patches) ApplyFuncVarSeq(target interface{}, outputs []OutputCell) *Patches
 func (this *Patches) ApplyGlobalVar(target, double interface{}) *Patches
 func (this *Patches) ApplyMethod(target reflect.Type, methodName string, double interface{}) *Patches
+func (this *Patches) ApplyMethodFunc(target interface{}, methodName string, doubleFunc interface{}) *Patches
+func (this *Patches) ApplyMethodReturn(target interface{}, methodName string, returns ...interface{}) *Patches
 func (this *Patches) ApplyMethodSeq(target reflect.Type, methodName string, outputs []OutputCell) *Patches
+func (this *Patches) ApplyPrivateMethod(target interface{}, methodName string, double interface{}) *Patches
 func (this *Patches) Reset()
